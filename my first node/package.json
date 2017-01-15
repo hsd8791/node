@@ -1,0 +1,12 @@
+{
+  "name": "1st_try_package",
+  "version": "1.0.0",
+  "description": "1st 尝试 package的功能",
+  "main": "server.js",
+  "scripts": {
+    "test": "start test",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

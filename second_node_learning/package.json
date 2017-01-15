@@ -1,0 +1,22 @@
+{
+  "name": "olmested",
+  "version": "1.0.0",
+  "description": "second trial now",
+  "main": "\t",
+  "scripts": {
+    "test": "start test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "2nd"
+  ],
+  "author": "hsd",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "2.5.5",
+    "express": "4.14.0"
+  }
+}
