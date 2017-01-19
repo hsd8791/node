@@ -3,72 +3,94 @@ var http=require('http')
 var app=express()
 var fs=require('fs')
 var querystring=require('querystring')
-var mysql=require('mysql')
 var gm = require('gm')
 , dir = __dirname + '/imgs'
 var imageMagick = gm.subClass({ imageMagick: true });
+var fs = require('fs') 
+//var Iconv = require('iconv').Iconv; 
+var encoding = require('encoding');
+var path=require('path')
+var md5=require('md5')
 
 
-
-
-var pool = mysql.createPool({
-	host:'localhost',
-	port:8080,
-	database:'mysql',
-	user:'root',
-	password:'root'
-})
 app.use('/2017', express.static(__dirname + '/'));
 
-app.get('/index.html',function(req,res){
+var goToIndex=function(req,res){
 	res.writeHead(200,{'content-Type':'text/html'})
-	res.write('<head><meta charset="utf-8"><title>ä½¿ç”¨postæ–¹æ³•å‘æœåŠ¡å™¨ç«¯æäº¤æ•°æ®</title></head>')
-	console.log('running')
+	res.write('<head><meta charset="utf-8"><title>Ê¹ÓÃpost·½·¨Ïò·şÎñÆ÷¶ËÌá½»Êı¾İ</title></head>')
 	//console.trace(__dirname)
 	var file=fs.createReadStream('index.html')  //??
 	file.pipe(res) //??
-	// res.end('ä½ å¥½\n')
-})
+	return;
+	// res.end('ÄãºÃ\n')
+}
+
+app.get('/index.html',goToIndex)
 app.post('/index.html',function(req,res){
 	req.on('data',function(data){
-		 var obj=querystring.parse(data.toString())  //??
+		var obj=querystring.parse(data.toString())  
+		console.log('data',data,obj.firstname)
+		var newPath=dir+"/drawing1"+md5(obj.lastname)+".jpg"
+		console.log(newPath)
+		if(fs.existsSync(newPath)){
+			console.log('already exist') 
+			res.write('<script>alert("already exist")</script>')
+			//res.location('/index.html')
+		//	res.end()
+		res.write('<head><meta charset="utf-8"><title>Ê¹ÓÃpost·½·¨Ïò·şÎñÆ÷¶ËÌá½»Êı¾İ</title></head>')
+	var file=fs.createReadStream('index.html')  //??
+	file.pipe(res) //??
+		//goToIndex(req,res);
 
-		 console.log('data',data,obj.firstname)
-		 imageMagick (300,300,dir + "/background.jpg")
-		 // gm(dir + "/background.jpg")
-		 .font( __dirname + '/fonts/msyhbd.ttc')
-		 .drawText(1200, 1200, obj.firstname+'é™†'+'123asd')
-		// .draw('text  1700, 1700 '+obj.lastname)
-		 .fontSize(616)
-		 .stroke("#cccccc")
-		 .gravity('Center')
-		// .draw("text 100,150 '" + new String("Chinaä¸­æ–‡".getBytes("utf-8"),"gbk")+ "'")
-		 .write(dir+"/drawing1.png", function (err) {
-		 	if (!err) console.log('done');
-		 	console.log(err)
-		 });
 
-		// pool.getConnection(function(err,connection){   
-		// 	if(err){
-		// 		res.send('connect to mysql unsuccessfully')
-		// 	}
-		// 	else{
-		// 		var str;
-		// 		connection.query('INSERT INTO user SET ?',
-		// 			{username:obj.username,firstname:obj.firstname},
-		// 			function(err,result){
-		// 				if(err){
-		// 					str='fail to insert data'
-		// 				}
-		// 				else{
-		// 					str='succeed TO insert data'
-		// 				}
-		// 				connection.release();
-		// 				res.send(str)
-		// 			})
-		// 	}
-		// })
+			return;
+		}
+
+		// var buffer = encoding.convert('aaaÎÒÊÇÖĞÎÄ×Ö', 'GBK','UTF-8')
+		imageMagick (dir + "/background.jpg")
+		.font( __dirname + '/fonts/msyhbd.ttc')
+		.fontSize(616)
+		.drawText(1200, 1200, obj.lastname+'123asd') 
+		.stroke("#cccccc")
+		.gravity('Center')
+		.write(newPath, function (err) {
+			if (!err) console.log('done');
+			console.log(err)
+		})
+		res.end()
+
+
 	})
-})
 
+})
 app.listen(8080,'127.0.0.1')
+console.log('running')
+
+//gm(dir + "/background.jpg")
+
+//gm(400, 400, '#ffffff') .font('simhei.ttf', 28) .drawText(20, 50, buffer)
+
+// .draw('text  1700, 1700 '+obj.lastname)
+
+// .draw("text 100,150 '" + new String("ChinaÖĞÎÄ".getBytes("utf-8"),"gbk")+ "'")
+
+// pool.getConnection(function(err,connection){   
+// 	if(err){
+// 		res.send('connect to mysql unsuccessfully')
+// 	}
+// 	else{
+// 		var str;
+// 		connection.query('INSERT INTO user SET ?',
+// 			{username:obj.username,firstname:obj.firstname},
+// 			function(err,result){
+// 				if(err){
+// 					str='fail to insert data'
+// 				}
+// 				else{
+// 					str='succeed TO insert data'
+// 				}
+// 				connection.release();
+// 				res.send(str)
+// 			})
+// 	}
+// })
