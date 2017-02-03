@@ -6,10 +6,15 @@
 	<title>use post to upload data</title>
 </head>
 <body>
-	<form action="index.html" id='form1' method="post">
-		姓：<input type="text" value="陆" name='firstname'><br>
-		名：<input type="text" value="牛" name='lastname'><br>
-		<input type="submit" value="提交">
-	</form>
+123
+	<button class="test" id='test'>测算</button>
+	<script>
+		var test=document.getElementById('test')
+		test.onclick=function () {
+			var iIndex=Math.floor(Math.random()*25)
+					window.history.pushState("object or string", "Title 看见你看见你哭", "/index.html?index="+iIndex+'&state=1');
+		}
+
+	</script>
 </body>
 </html>

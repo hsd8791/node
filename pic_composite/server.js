@@ -11,59 +11,102 @@ var fs = require('fs')
 var encoding = require('encoding');
 var path=require('path')
 var md5=require('md5')
+var url = require('url');
+var router = express.Router();
 
+app.set('views', path.join(__dirname, 'views'));// Ã‰Ã¨Ã–ÃƒÂ´Ã¦Â·Ã…Ã„Â£Â°Ã¥ÃÃ„Â¼Ã¾ÂµÃ„Ã„Â¿Ã‚Â¼
+app.set('view engine', 'ejs');// Ã‰Ã¨Ã–ÃƒÃ„Â£Â°Ã¥Ã’Ã½Ã‡Ã¦ÃÂª ejs
 
-app.use('/2017', express.static(__dirname + '/'));
+app.use( '/',express.static( __dirname+"/" ) )
+app.use( '/2017/imgs',express.static( __dirname+"/imgs" ) )
+app.use('/2017', router);
 
-var goToIndex=function(req,res){
-	res.writeHead(200,{'content-Type':'text/html'})
-	res.write('<head><meta charset="utf-8"><title>Ê¹ÓÃpost·½·¨Ïò·şÎñÆ÷¶ËÌá½»Êı¾İ</title></head>')
-	//console.trace(__dirname)
-	var file=fs.createReadStream('index.html')  //??
-	file.pipe(res) //??
-	return;
-	// res.end('ÄãºÃ\n')
-}
+// var goToIndex=function(req,res){
+// 	res.writeHead(200,{'content-Type':'text/html'})
+// 	res.write('<head><meta charset="utf-8"><title>ÃŠÂ¹Ã“ÃƒpostÂ·Â½Â·Â¨ÃÃ²Â·Ã¾ÃÃ±Ã†Ã·Â¶Ã‹ÃŒÃ¡Â½Â»ÃŠÃ½Â¾Ã</title></head>')
+// 	//console.trace(__dirname)
+// 	var file=fs.createReadStream('index.html')  //??
+// 	file.pipe(res) //??
+// 	return;
+// 	// res.end('Ã„Ã£ÂºÃƒ\n')
+// }
 
-app.get('/index.html',goToIndex)
-app.post('/index.html',function(req,res){
-	req.on('data',function(data){
-		var obj=querystring.parse(data.toString())  
-		console.log('data',data,obj.firstname)
-		var newPath=dir+"/drawing1"+md5(obj.lastname)+".jpg"
-		console.log(newPath)
-		if(fs.existsSync(newPath)){
-			console.log('already exist') 
-			res.write('<script>alert("already exist")</script>')
-			//res.location('/index.html')
-		//	res.end()
-		res.write('<head><meta charset="utf-8"><title>Ê¹ÓÃpost·½·¨Ïò·şÎñÆ÷¶ËÌá½»Êı¾İ</title></head>')
-	var file=fs.createReadStream('index.html')  //??
-	file.pipe(res) //??
-		//goToIndex(req,res);
+//app.get('/index.html',goToIndex)
 
-
-			return;
-		}
-
-		// var buffer = encoding.convert('aaaÎÒÊÇÖĞÎÄ×Ö', 'GBK','UTF-8')
-		imageMagick (dir + "/background.jpg")
-		.font( __dirname + '/fonts/msyhbd.ttc')
-		.fontSize(616)
-		.drawText(1200, 1200, obj.lastname+'123asd') 
-		.stroke("#cccccc")
-		.gravity('Center')
-		.write(newPath, function (err) {
-			if (!err) console.log('done');
-			console.log(err)
+router.get('/index.html/?',function(req,res){
+	// var urlp=url.parse(req.url, true)
+	// console.log('urlp',urlp)
+	var queryData = url.parse(req.url, true).query;
+	console.log(queryData,queryData.state)
+	if(queryData.state==0||queryData.state===undefined||!queryData.state){
+		console.log('test')
+		var cacheControl=Math.random().toString(36).substr(2);
+		res.render('index',{
+			//path2:'/2017/imgs/try-egg.gif?'+cacheControl
 		})
-		res.end()
-
-
-	})
-
+	}else{
+		console.log('share')
+//path è·¯å¾„ï¼
+		res.render('index1', {
+			// path:'#'
+			path:"/2017/imgs/share-images/try-share"+queryData.index+".jpg"
+		});
+	}
+	res.end();
 })
-app.listen(8080,'127.0.0.1')
+// app.post('/index2.html',function(req,res){
+// 	req.on('data',function(data){
+// 		var obj=querystring.parse(data.toString())  
+// 		console.log('data',data,obj.firstname)
+// 		var newPath=dir+"/drawing1"+md5(obj.lastname)+".jpg"
+// 		console.log(newPath)
+// 		if(fs.existsSync(newPath)){
+// 			console.log('already exist') 
+// 			res.write('<script>alert("already exist")</script>')
+// 			//res.location('/index.html')
+// 		//	res.end()
+
+// 		res.write('<head><meta charset="utf-8"><title>post</title></head>')
+// 		var file=fs.createReadStream('index.html')  //??
+// 		//file.pipe(res) //??
+// 		//goToIndex(req,res);
+// 		return;
+// 	}
+
+// 		// var buffer = encoding.convert('aaaÃÃ’ÃŠÃ‡Ã–ÃÃÃ„Ã—Ã–', 'GBK','UTF-8')
+// 		imageMagick (dir + "/background.jpg")
+// 		.font( __dirname + '/fonts/msyhbd.ttc')
+// 		.fontSize(616)
+// 		.drawText(1200, 1200, obj.lastname+'123asd') 
+// 		.stroke("#cccccc")
+// 		.gravity('Center')
+// 		.write(newPath, function (err) {
+// 			if (!err) {
+// 				res.render('index1', {
+// 					race:req.params.race,
+// 					name: req.query.name,
+// 					age: req.query.age,
+// 					hobby:req.params.hobby,
+// 					path:"/2017/imgs/drawing1"+md5(obj.lastname)+".jpg"
+// 				});
+// 				console.log('done');
+// 				res.end()
+// 			}
+// 			console.log(err)
+// 			res.end()
+// 		})
+// 		//ÃŒÃ¸Ã—Âª
+
+// 		//res.location('http://www.baidu.com')
+
+
+
+
+
+// 	})
+
+// })
+app.listen(8888,'127.0.0.1')
 console.log('running')
 
 //gm(dir + "/background.jpg")
@@ -72,7 +115,7 @@ console.log('running')
 
 // .draw('text  1700, 1700 '+obj.lastname)
 
-// .draw("text 100,150 '" + new String("ChinaÖĞÎÄ".getBytes("utf-8"),"gbk")+ "'")
+// .draw("text 100,150 '" + new String("ChinaÃ–ÃÃÃ„".getBytes("utf-8"),"gbk")+ "'")
 
 // pool.getConnection(function(err,connection){   
 // 	if(err){

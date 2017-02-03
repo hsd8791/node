@@ -12,7 +12,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/:race/:hobby/?', function(req, res) {
+router.get('/xxx/:race/:hobby/?', function(req, res) {
   res.render('users', {
   	race:req.params.race,
     name: req.query.name,
