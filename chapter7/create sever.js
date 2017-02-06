@@ -1,4 +1,6 @@
 var net=require('net')
+var fs=require('fs')
+var file=fs.createWriteStream('./message.txt');
 
 var server=net.createServer( function(socket){
 	console.log('connected');
@@ -9,13 +11,30 @@ var server=net.createServer( function(socket){
 		console.log('count',count);
 	})
 });
-
+var num=0
 server.on('connection',function (socket) {
+	var nth=++num
+
 	console.log('socket address',socket.address());
+	socket.pause()
+	//.
+	socket.setTimeout(10*1000,function () {
+		console.log(nth ,' connection time out');
+		socket.resume()
+		socket.pipe(file)
+	});
+	// setTimeout(function () {
+	// 	socket.resume()
+	// 	socket.pipe(file)
+	// }, 10*1000);
 	socket.on('data',function(data){
-		console.log(data);
-		console.log(socket.bytesRead);
-		console.log(data.toString());
+		 socket.pause()
+		// setTimeout(function () {
+		// 	socket.resume()
+		// }, 10*1000);
+		// console.log(data);
+		// console.log(socket.bytesRead);
+		console.log('data',data.toString());
 	})
 	socket.on('end',function () {
 		console.log('end closed');
@@ -38,4 +57,4 @@ var cls=function () {
 		console.log('closed');
 	})
 }
-setTimeout(cls, 10000)
+//setTimeout(cls, 10000)
