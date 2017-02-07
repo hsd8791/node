@@ -13,31 +13,61 @@ var server=net.createServer( function(socket){
 });
 var num=0
 server.on('connection',function (socket) {
+	var empty=0,reading=0
 	var nth=++num
-
+	// empty=1
 	console.log('socket address',socket.address());
 	socket.pause()
+	console.log('paused');
 	//.
-	socket.setTimeout(10*1000,function () {
-		console.log(nth ,' connection time out');
-		socket.resume()
-		socket.pipe(file)
-	});
+	// socket.setTimeout(10*1000,function () {
+	// 	console.log(nth ,' connection time out');
+	// 	socket.resume()
+	// 	empty=0
+	// 	socket.pipe(file)
+	// });
 	// setTimeout(function () {
 	// 	socket.resume()
 	// 	socket.pipe(file)
 	// }, 10*1000);
-	socket.on('data',function(data){
-		 socket.pause()
-		// setTimeout(function () {
-		// 	socket.resume()
-		// }, 10*1000);
-		// console.log(data);
-		// console.log(socket.bytesRead);
-		console.log('data',data.toString());
+	socket.setTimeout(10*1000,function(){
+		console.log(nth ,' connection time out');
+		socket.resume()
+		socket.pipe(file)
+
+		setTimeout(function(){
+			// socket.unpipe(file)
+			console.log('unpipe');
+			socket.on('data',function(data){
+				console.log('data',data.toString());
+				socket.pause()
+
+				socket.setTimeout(10*1000,function(){
+					console.log(nth ,' connection time out');
+					socket.resume()
+					socket.pipe(file)
+				})	
+
+
+			})
+		},0)
 	})
+	socket.on('data',function(data){
+
+	// 	socket.setTimeout(0)
+	// 	socket.setTimeout(10*1000,function () {
+	// 		console.log(nth ,' connection time out');
+	// 		socket.resume()
+	// 		socket.pipe(file)
+	// 		setTimeout(function(){
+	// 		}, 5*1000)
+
+	// 	})
+
+	console.log('data',data.toString());
+})
 	socket.on('end',function () {
-		console.log('end closed');
+		console.log(nth,' end closed');
 	})
 })
 

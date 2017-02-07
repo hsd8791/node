@@ -3,11 +3,11 @@
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <style>
 	.container{
-		background: url(/2017/imgs/try-bg1.png) no-repeat center center;
+		background: url(/2017/imgs/try-bg1.png) no-repeat center bottom;
 		background-size: cover;
 		width: 3.75rem;
-		/*height: 100%;*/
-		height: 6.04rem;
+		height: 100%;
+		/*height: 6.04rem;*/
 		position: relative;
 		margin:0 auto;
 		font-size: 0.12rem;
@@ -32,7 +32,7 @@
 	.hill{
 		width: 3.75rem;
 		position: absolute;
-		top: 65%;
+		bottom: 29%;
 
 	}
 	img,.remind,.try-bttn{
@@ -42,12 +42,14 @@
 	}
 	.static-egg {
 		width: 1.945rem;
-		top: 1.63rem;
-		/*top:27%;*/
+		/*top: 1.63rem;*/
+		/*bottom:29%;*/
+		bottom: 2rem;
 	}
 	.moving-egg{
 		width: 3.75rem;
-		bottom: 0.035rem;
+		bottom:0.255rem;
+		/*height: 100%;*/
 		display: none;
 		/*opacity: 0.2;*/
 	}
@@ -58,8 +60,8 @@
 		background-size: cover;
 		width: 1.05rem;
 		height: 1.2rem;
-		top: 4.5rem;
-		/*top: 74.5%;*/
+		/*top: 4.5rem;*/
+		top: 74.5%;
 		transition: opacity 0.5s;
 	}	
 	.remind{
@@ -78,8 +80,8 @@
 		cursor: pointer;
 	}
 	.rslt-txt{
-		top: 1.86rem;
-		/*top:30.8%;*/
+		/*top: 1.86rem;*/
+		top:30.8%;
 		width: 0.325rem;
 		/*visibility: hidden;*/
 		transform: scale(0);
@@ -151,7 +153,6 @@
 	<img src="/2017/imgs/try-egg.png" alt="" class="static-egg" id='static-egg'>
 	<img src="#" alt="" class="moving-egg" id='moving-egg'>
 	<img src="/2017/imgs/try-mbg.png" alt="" class="hill">
-	<!-- <img src="/2017/imgs/try-chicken.png" alt="" class="try-bttn" > -->
 	<div class="try-bttn" id='try'class="try-bttn">
 		<div class="remind" id='remind'></div>
 	</div>
