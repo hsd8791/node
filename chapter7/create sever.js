@@ -78,6 +78,7 @@ server.listen(8431,'localhost',function () {
 
 
 server.on('error',function(e){
+	console.log('client error');
 	console.log(e);
 	console.log(e.code);
 })
