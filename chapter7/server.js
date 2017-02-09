@@ -7,7 +7,7 @@ var server=net.createServer( function(socket){
 	readStream.on('data',function (data) {
 		var flag=socket.write(data)
 		console.log('write return',flag);
-		console.log('buffer all %d ',socket.bufferSize);
+		console.log('buffer all ',socket.bufferSize);
 	})
 	// console.log(socket);
 	server.maxConnecions=2
@@ -32,6 +32,9 @@ var server=net.createServer( function(socket){
 	socket.on('error',function (err) {
 		console.log('close err',err);
 		socket.destroy()
+	})
+	socket.on('drain',function(){
+		console.log('drain');
 	})
 });
 
