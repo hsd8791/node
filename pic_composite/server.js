@@ -32,6 +32,10 @@ app.use('/2017', router);
 // }
 
 //app.get('/index.html',goToIndex)
+router.get('/love.html',function (req,res) {
+	// body...
+	res.render('love',{})
+})
 
 router.get('/index.html/?',function(req,res){
 	// var urlp=url.parse(req.url, true)

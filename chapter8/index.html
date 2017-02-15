@@ -11,5 +11,24 @@
 		<br>
 		<input type="submit" value="submit">
 	</form>
+	<input type="button" value="get" onclick="getData()">
+	<div id="dataGet"></div>
+	<script type="text/javascript">
+		function getData(){
+			var xhr=new XMLHttpRequest()
+			xhr.open('GET','http://127.0.0.1:1337/',true)
+			xhr.onreadystatechange=function (){
+						console.log(xhr);
+				if(xhr.readyState==4){
+					if(xhr.status==200){
+
+						document.getElementById('dataGet').innerHTML=xhr.responseText
+
+					}
+				}
+			}
+			xhr.send(null)
+		}
+	</script>
 </body>
 </html>

@@ -8,13 +8,19 @@ server.on('request',function(req,res) {
 	console.log(req.url);
 	var head=JSON.stringify(req.headers)
 	if(req.url!='/favicon.ico'){
+		// res.writeHead(200,{'content-Type':'text/plain'})
+		res.setHeader('Content-Type','text/plain')
+		res.setHeader('Access-Control-Allow-Origin','*')
+		res.sendDate=false
+		res.statusCode=404
 		file.write('url:'+req.url+'\n')
 		res.write('url:'+req.url+'\n')
-		console.log(head);
-		console.log('write in');
+		// console.log(head);
+		// console.log('write in');
 		res.write('header:'+head+'\n')
 		file.write('header:'+head+'\n')
-		
+		res.write('啊哈哈哈哈  you connect me')
+		res.write(res.getHeader('Content-Type'))
 	}
 	req.on('data',function (data) {
 		console.log('server get:',decodeURIComponent(data))
@@ -22,6 +28,7 @@ server.on('request',function(req,res) {
 	req.on('end',function () {
 		console.log('data sent all');
 	})
+
 	res.end()
 	// console.log();
 })
