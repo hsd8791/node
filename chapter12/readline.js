@@ -19,10 +19,11 @@ rl.on('line',function(line){
 	if(line==='quit'){
 		rl.close()
 	}else if(line==='pause'){
+		console.log('paused');
 		rl.pause()
 		setTimeout(function () {
 			rl.resume()	
-		},1000)
+		},11000)
 	}else{
 		console.log('input:',line);
 	}
@@ -31,9 +32,9 @@ rl.on('line',function(line){
 rl.on('close',function () {
 	console.log('closed');
 })
-rl.on('pause',function () {
-	console.log('paused');
-})
-rl.on('resume',function () {
-	console.log('resumed');
-})
+// rl.on('pause',function () {
+	
+// })
+// rl.on('resume',function () {
+// 	console.log('resumed');
+// })
